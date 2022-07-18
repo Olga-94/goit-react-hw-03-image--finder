@@ -6,11 +6,11 @@ import { ModalOverlay, ModalBox, Image } from './Modal.styled';
 const modalRoot = document.querySelector('#modal-root');
 
 export class Modal extends Component {
-  static propTypes = {
-    selectedImg: PropTypes.string,
-    tags: PropTypes.string,
-    onClose: PropTypes.func,
-  };
+  // static propTypes = {
+  //   selectedImg: PropTypes.string,
+  //   tags: PropTypes.string,
+  //   onClose: PropTypes.func,
+  // };
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
   }
@@ -39,8 +39,13 @@ export class Modal extends Component {
           <Image src={selectedImg} alt={tags} />
         </ModalBox>
       </ModalOverlay>,
-      modalRoot
+      modalRoot,
     );
   }
 }
 
+Modal.propTypes = {
+  selectedImg: PropTypes.string,
+  tags: PropTypes.string,
+  onClose: PropTypes.func,
+};
