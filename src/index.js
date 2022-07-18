@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme';
 import { App } from 'components/App';
-// import smoothscroll from 'smoothscroll-polyfill';
+import smoothscroll from 'smoothscroll-polyfill';
 
 import './index.css';
 
@@ -14,4 +14,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </ThemeProvider>
   </React.StrictMode>
 );
-// smoothscroll.polyfill();
+smoothscroll.polyfill();
