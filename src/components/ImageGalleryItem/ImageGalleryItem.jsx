@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Item, Image } from './ImageGalleryItem.styled';
 
-export const ImageGalleryItem = ({ alt, previewImg, selectedImage }) => {
+export const ImageGalleryItem = ({ alt, previewImg, largeImageURL, selectedImage }) => {
   return (
-    <Item id={alt} onClick={selectedImage}>
-      <Image src={previewImg} alt={alt} />
+    <Item id={alt}>
+      <Image src={previewImg} 
+             alt={alt}
+             onClick={() => selectedImage(largeImageURL)} />
     </Item>
   );
 }

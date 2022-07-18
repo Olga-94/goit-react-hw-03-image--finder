@@ -45,7 +45,7 @@ export class Modal extends Component {
 }
 
 Modal.propTypes = {
-  selectedImg: PropTypes.string,
+  selectedImg: PropTypes.string.isRequired,
   tags: PropTypes.string,
   onClose: PropTypes.func,
 };
