@@ -44,6 +44,7 @@ export class App extends Component {
             top: document.documentElement.scrollHeight,
             behavior: 'smooth',
           });
+          
         }
       } catch (error) {
         onErrorNotification();
@@ -65,6 +66,7 @@ export class App extends Component {
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
+    
   };
 
   handleSelectedImage = (largeImageUrl, id) => {
