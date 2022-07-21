@@ -21,6 +21,8 @@ export class App extends Component {
     status: 'idle',
   };
 
+    totalHits = null;
+
   async componentDidUpdate(_, prevState) {
     const { searchQuery, page } = this.state;
 
@@ -29,9 +31,13 @@ export class App extends Component {
 
       try {
         const images = await Api.getImages(searchQuery, page);
+        this.totalHits = images.total;
+        // const imagesHits = images.hits;
+        // const data = images.data.hits;
 
         if (!images.length) {
           throw new Error();
+          
         }
 
         this.setState(prevState => ({
@@ -46,8 +52,12 @@ export class App extends Component {
           });
           
         }
+
       } catch (error) {
         onErrorNotification();
+
+        // this.setState({ 
+        //   loadMoreBtnClick: false });
         this.setState({ status: 'rejected' });
       }
     }
@@ -132,7 +142,7 @@ export class App extends Component {
               onClose={this.closeModal}
             />
           )}
-          {images.length > 0 && (
+          {images.length > 0 && images.length > 0 && images.length !== this.totalHits &&(
             <LoadMoreButton onClick={this.loadMoreBtnClick} />
           )} 
         </AppStyled>
