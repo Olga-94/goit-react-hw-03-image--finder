@@ -8,56 +8,45 @@ import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { LoadMoreButton } from 'components/LoadMoreButton/LoadMoreButton';
 import { Spinner } from 'components/Spinner/Spinner';
 import { Modal } from 'components/Modal/Modal';
+import { isVisible } from '@testing-library/user-event/dist/utils';
 
 export class App extends Component {
   static propTypes = { searchQuery: PropTypes.string };
 
   state = {
     page: 1,
+    per_page: 12,
     searchQuery: '',
     images: [],
     selectedImg: null,
     alt: null,
     status: 'idle',
+    isVisible: false,
   };
 
-    totalHits = null;
-
   async componentDidUpdate(_, prevState) {
-    const { searchQuery, page } = this.state;
+    const { searchQuery, page, per_page } = this.state;
 
     if (prevState.searchQuery !== searchQuery || prevState.page !== page) {
       this.setState({ status: 'pending' });
 
       try {
-        const images = await Api.getImages(searchQuery, page);
-        this.totalHits = images.total;
-        // const imagesHits = images.hits;
-        // const data = images.data.hits;
-
-        if (!images.length) {
-          throw new Error();
-          
-        }
+        const {hits, totalHits } = await Api.getImages(searchQuery, page);
 
         this.setState(prevState => ({
-          images: [...prevState.images, ...images],
+          images: [...prevState.images, ...hits],
           status: 'resolved',
+          isVisible: page < Math.ceil(totalHits / per_page),
         }));
 
         if (page > 1) {
           window.scrollTo({
             top: document.documentElement.scrollHeight,
             behavior: 'smooth',
-          });
-          
+          }); 
         }
-
       } catch (error) {
         onErrorNotification();
-
-        // this.setState({ 
-        //   loadMoreBtnClick: false });
         this.setState({ status: 'rejected' });
       }
     }
@@ -104,7 +93,7 @@ export class App extends Component {
   };
 
   render() {
-    const { images, selectedImg, alt, status } = this.state;
+    const { images, selectedImg, alt, status, isVisible } = this.state;
 
     if (status === 'idle') {
       return <SearchBar onSubmit={this.handleFormSubmit} />;
@@ -120,9 +109,7 @@ export class App extends Component {
             selectedImage={this.handleSelectedImage}
           />
           <Spinner />
-          {images.length > 0 && (
-            <LoadMoreButton onClick={this.loadMoreBtnClick} />
-          )} 
+          {isVisible && <LoadMoreButton onClick={this.loadMoreBtnClick} />} 
         </AppStyled>
       );
     }
@@ -142,9 +129,7 @@ export class App extends Component {
               onClose={this.closeModal}
             />
           )}
-          {images.length > 0 && images.length > 0 && images.length !== this.totalHits &&(
-            <LoadMoreButton onClick={this.loadMoreBtnClick} />
-          )} 
+          {isVisible && <LoadMoreButton onClick={this.loadMoreBtnClick} />} 
         </AppStyled>
       );
     }

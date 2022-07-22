@@ -9,7 +9,7 @@ export class Api {
         `;
     const { data } = await axios.get(url);
 
-    return data.hits;
+    return data;
   }
 }
 
