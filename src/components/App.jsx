@@ -8,7 +8,6 @@ import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { LoadMoreButton } from 'components/LoadMoreButton/LoadMoreButton';
 import { Spinner } from 'components/Spinner/Spinner';
 import { Modal } from 'components/Modal/Modal';
-import { isVisible } from '@testing-library/user-event/dist/utils';
 
 export class App extends Component {
   static propTypes = { searchQuery: PropTypes.string };
